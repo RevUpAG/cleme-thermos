@@ -180,30 +180,13 @@ h3.d{font-size:clamp(24px,2.5vw,36px);line-height:1.08}
 
 /* calendar */
 
-/* year: each panel is a thermal image until it opens */
-.year{display:flex;gap:8px;height:clamp(500px,66svh,620px);margin-top:clamp(26px,3.4vw,48px)}
-.mo{position:relative;flex:1 1 0;border-radius:10px;overflow:hidden;background:var(--k);color:#fff;transition:flex-grow .55s cubic-bezier(.2,.85,.2,1)}
-.mo.on{flex-grow:8.4}
-.mo .thermal{position:absolute;inset:0 auto 0 50%;width:min(640px,54vw);translate:-50% 0;--r:clamp(56px,6vw,86px)}
-.mo .photo img{object-fit:cover;object-position:50% var(--pos,30%)}
-.mo .cutout img{inset:6% 0 0;position:absolute;height:94%}
-.mo .cover{clip-path:none;transition:opacity .5s}
-.mo.on .cover,.mo:not(.on) .ring{opacity:0}
-.mo:not(.on) *{animation-play-state:paused!important}
-.mo::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(color-mix(in srgb,var(--k),transparent 72%),color-mix(in srgb,var(--k),transparent 25%) 70%,var(--k));transition:opacity .4s}
-.mo.on::after{background:linear-gradient(transparent 34%,rgba(0,0,0,.86) 84%)}
-.mo-b{position:absolute;inset:0;z-index:3;width:100%;padding:0 0 22px;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
-.mo-b .d{writing-mode:vertical-rl;rotate:180deg;white-space:nowrap;font-size:clamp(19px,1.9vw,28px);--w:88;transition:--w .3s}
-.mo-b small{display:none}
-.mo.on .mo-b{pointer-events:none;opacity:0}
-.mo:not(.on):hover .mo-b .d{--w:120}
-.mo-i{position:absolute;z-index:2;left:0;bottom:0;width:calc((min(100vw - 2*var(--pad),var(--max)) - 64px)*.512);padding:28px;display:grid;gap:8px;pointer-events:none;visibility:hidden;opacity:0;transform:translateY(16px);transition:opacity .35s,transform .35s,visibility .35s}
-.mo.on .mo-i{visibility:visible;opacity:1;transform:none;transition-delay:.18s}
-.mo-i h3{font-size:clamp(34px,4vw,60px);--w:106}
-.mo-i .when{font-weight:700;font-size:18px}
-.mo-i .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.mo-i .tags span{background:#fff;color:#000;border-radius:4px;padding:6px 11px;font-weight:700;font-size:14px;line-height:1.25}
-.mo-i .tags span+span{background:var(--k);color:#fff}
+.cal{width:100%;border-collapse:collapse;margin-top:clamp(26px,3.4vw,48px)}
+.cal th,.cal td{padding:14px 18px 14px 0;border-bottom:1px solid var(--line);text-align:left;vertical-align:baseline}
+.cal thead th{font-size:14px;font-weight:600;color:var(--mute);padding-top:0}
+.cal tbody th{font-size:clamp(20px,1.9vw,27px);--w:84;transition:--w .35s cubic-bezier(.2,.85,.2,1),color .2s;width:27%}
+.cal .when{font-weight:700;white-space:nowrap;width:17%}
+.cal .kin-tag{font-weight:700;color:var(--red)}
+@media (hover:hover){.cal tbody tr:hover th{--w:116;color:var(--red)}}
 
 /* three pieces */
 .trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3.6vw,56px);margin-top:clamp(32px,4.4vw,64px)}
@@ -245,11 +228,11 @@ details[open] summary::after{content:"–"}
 .terms dd{color:#33363B}
 
 /* closing */
-#cierre{--ch:max(520px,calc(100svh - 118px));background:var(--red);color:#fff;display:grid;grid-template-columns:minmax(0,1fr) min(48vw,calc(var(--ch)*.74));align-items:center;min-height:var(--ch)}
+#cierre{--ch:max(520px,calc(100svh - 118px));background:var(--red);color:#fff;display:grid;grid-template-columns:minmax(0,1fr) min(47vw,calc(var(--ch)*.88));align-items:center;min-height:var(--ch)}
 #cierre h2{font-size:clamp(42px,6.6vw,120px);line-height:.96;padding-left:var(--pad)}
 #cierre .thermal{align-self:stretch;overflow:clip;--r:clamp(64px,7.6vw,110px);animation-name:drift-end}
-#cierre .thermal img{position:absolute;inset:0;object-fit:cover;object-position:50% 30%}
-@keyframes drift-end{0%,100%{--x:49%;--y:24%}30%{--x:30%;--y:46%}60%{--x:60%;--y:68%}80%{--x:66%;--y:46%}}
+#cierre .thermal img{position:absolute;inset:0;object-fit:cover;object-position:50% 40%}
+@keyframes drift-end{0%,100%{--x:52%;--y:22%}30%{--x:36%;--y:38%}60%{--x:58%;--y:66%}80%{--x:68%;--y:40%}}
 footer{background:#000;color:#B4B8BF;padding:18px var(--pad);font-size:14px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 24px}
 footer a{color:#fff;font-weight:700}
 
@@ -313,20 +296,22 @@ footer a{color:#fff;font-weight:700}
  .play{width:54px;height:54px;margin:-27px 0 0 -27px}
  .play::after{left:21px;top:16px;border-width:11px 0 11px 17px}
  .phone{width:100%;border-radius:14px}
+ .cal thead{display:none}
+ .cal tr{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:14px 0;border-bottom:1px solid var(--line)}
+ .cal th,.cal td{padding:0;border:0}
+ .cal tbody th{width:auto;--w:100}
+ .cal .when{width:auto;text-align:right}
+ .cal .what{grid-column:1/-1;line-height:1.4}
+ .cal .camp:not(:empty)::before{content:"Campaña "}
+ .cal .solo{display:none}
+ .cal .solo+.camp{grid-column:1/-1;text-align:left}
+ .cal .kin-tag,.cal .camp{font-size:14px}
+ .cal .camp{text-align:right;color:var(--mute)}
  #historias .lead{display:none}
  .terms{grid-template-columns:1fr}
  #cierre{grid-template-columns:1fr;min-height:0}
  #cierre h2{font-size:11.4vw;padding:54px var(--pad) 34px}
- #cierre .thermal{aspect-ratio:1/1.3;--r:15vw}
- .year{flex-direction:column;height:auto;gap:6px}
- .mo,.mo.on{flex:none;height:56px;transition:height .45s cubic-bezier(.2,.85,.2,1)}
- .mo.on{height:min(112vw,440px)}
- .mo .thermal{inset:0;width:100%;translate:none;--r:14vw}
- .mo::after{background:linear-gradient(90deg,var(--k),color-mix(in srgb,var(--k),transparent 45%))}
- .mo-b{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:0 16px}
- .mo-b .d{writing-mode:horizontal-tb;rotate:none;font-size:21px;--w:96}
- .mo-b small{display:block;font-weight:700;font-size:14px;text-align:right}
- .mo-i{width:100%;padding:18px}
+ #cierre .thermal{aspect-ratio:.88;--r:15vw}
  .trio{grid-template-columns:1fr;gap:26px}
  .trio li{grid-template-columns:58px minmax(0,1fr);gap:14px;padding-top:18px}
  .trio .n{font-size:84px}
@@ -488,10 +473,13 @@ footer a{color:#fff;font-weight:700}
 
 <section class="sec" id="calendario"><div class="in">
   <div class="head">
-    <h2 class="d grow"><span class="ln">De Nuquí</span><span class="ln">a Navidad</span></h2>
-    <p class="lead">Arranca este diciembre en Nuquí y sigue todo 2027. Toca cada plan para abrirlo.</p>
+    <h2 class="d grow"><span class="ln">El año 2027,</span><span class="ln">mes a mes</span></h2>
+    <p class="lead">Ejemplos de temas. El calendario final lo definimos juntos.</p>
   </div>
-  <ol class="year" id="year"></ol>
+  <table class="cal">
+    <thead><tr><th scope="col">Momento</th><th scope="col">Fecha</th><th scope="col">Enfoque</th><th scope="col">Con quién</th><th scope="col">Campaña Thermos 2026</th></tr></thead>
+    <tbody id="cal"></tbody>
+  </table>
   <p class="small note">Las fechas de viaje se confirman al firmar. En los demás meses, las prendas en el día a día: ciudad, oficina, Medellín, planes de fin de semana y caminatas y hiking constantes en lugares de Antioquia.</p>
 </div></section>
 
@@ -544,7 +532,7 @@ footer a{color:#fff;font-weight:700}
 
 <section id="cierre">
   <h2 class="d grow"><span class="ln">Sumemos a</span><span class="ln">Clementine al</span><span class="ln">Heating</span><span class="ln">Movement</span></h2>
-  <div class="thermal" data-thermal><img class="real" src="img/cierre-real.webp" loading="lazy" width="1100" height="1528" alt="Clementine sonríe y señala su chaqueta azul Storm Shell de Thermos"><img class="heat" src="img/cierre-heat.webp" loading="lazy" alt="" aria-hidden="true"><span class="ring"></span></div>
+  <div class="thermal" data-thermal><img class="real" src="img/final2-real.webp" loading="lazy" width="1180" height="1344" alt="Clementine con pulgares arriba y la chaqueta azul Storm Shell de Thermos"><img class="heat" src="img/final2-heat.webp" loading="lazy" alt="" aria-hidden="true"><span class="ring"></span></div>
 </section>
 </main>
 <footer><span>Propuesta de Clementine Davies para Thermos Colombia. Noviembre de 2026.</span><span>Contacto: Andrea Ocampo, <a class="tap" href="tel:+573128921230">312 892 1230</a></span></footer>
@@ -568,26 +556,6 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!calm){
   const L=$$('#inicio h1 b');
   $('#inicio').addEventListener('pointermove',e=>L.forEach(b=>{const r=b.getBoundingClientRect(),d=Math.hypot(e.clientX-r.x-r.width/2,(e.clientY-r.y-r.height/2)*.8);b.style.setProperty('--w',106+Math.max(0,1-d/230)*19)}));
   $('#inicio').addEventListener('pointerleave',()=>L.forEach(b=>b.style.removeProperty('--w')));
-}
-
-/* year panels; Thermos campaigns from thermos.com.co/pages/promociones (Xmas Hot: december 2025) */
-{const Y=[
- ['Nuquí','Dic. 2026','Diciembre de 2026','Rompevientos y prendas ligeras para lluvia, mar y aventura. Es este diciembre y entra en el plan.','Clementine','','#C8430E','photo','cal-nuqui'],
- ['Europa','Por confirmar','Por confirmar','Gabanes, chaquetas y capas térmicas en invierno real.','Clementine','','#1E46E0','photo','cal-europa'],
- ['Hiking','Todo el año','Todo el año','Caminatas y hiking constantes en lugares de Antioquia.','Clementine','','#0B7A4B','photo','rio'],
- ['Día de la Madre','9 de mayo','9 de mayo','Guía de regalos de la colección mujer.','Clementine','','#B8108A','photo','cal-madre'],
- ['Día del Padre','20 de junio','20 de junio','Regalos de la línea hombre.','Don Rob y su hermano','Dad Is On','#C8141F','photo','cal-padre'],
- ['Uruguay','Jun. y jul.','Junio y julio','Vacaciones de mitad de año en el invierno del sur: outfits de viaje y abrigo.','Clementine','Jacket Fest','#4B22C6','cutout','sherpa'],
- ['Amor y Amistad','18 de sept.','18 de septiembre','Regalos y looks en pareja o con amigas.','Clementine','Thermos Days','#D6245F','cutout','bicolor'],
- ['Black Friday','26 de nov.','26 de noviembre','Favoritos de Clementine y código exclusivo.','Clementine y su hermano','Black Days','#17181B','cutout','storm'],
- ['Navidad','Diciembre','Diciembre de 2027','Regalos y viajes de temporada.','Los Davies','Xmas Hot','#A50E18','cutout','cleme']];
- const img=(k,h)=>k.startsWith('cal-')?`img/${k}${h?'-heat':''}.webp`:`img/${k}-${h?'heat':'real'}.webp`;
- $('#year').innerHTML=Y.map((m,n)=>`<li class="mo${n?'':' on'}" style="--k:${m[6]}"><button class="mo-b" aria-expanded="${!n}" aria-controls="mo${n}"><span class="d">${m[0]}</span><small>${m[1]}</small></button><div class="thermal ${m[7]}" data-thermal${m[8]==='rio'?' style="--pos:84%"':''}><img class="real" src="${img(m[8])}" loading="lazy" alt=""><img class="heat" src="${img(m[8],1)}" loading="lazy" alt="" aria-hidden="true"><img class="heat cover" src="${img(m[8],1)}" loading="lazy" alt="" aria-hidden="true"><span class="ring"></span></div><div class="mo-i" id="mo${n}"><p class="when">${m[2]}</p><h3 class="d">${m[0]==='Hiking'?'Caminatas y hiking':m[0]}</h3><p>${m[3]}</p><p class="tags"><span>${m[4]}</span>${m[5]?`<span>Campaña Thermos: ${m[5]}</span>`:''}</p></div></li>`).join('');
- const mo=$$('.mo'),fine=matchMedia('(hover:hover) and (pointer:fine) and (min-width:861px)').matches;let wait;
- const open=n=>mo.forEach((x,k)=>{x.classList.toggle('on',k===n);x.firstElementChild.setAttribute('aria-expanded',k===n)});
- mo.forEach((x,n)=>{const b=x.firstElementChild;b.addEventListener('click',()=>open(n));
-  if(fine){x.addEventListener('mouseenter',()=>{wait=setTimeout(()=>open(n),110)});x.addEventListener('mouseleave',()=>clearTimeout(wait))}
-  b.addEventListener('keydown',e=>{const d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];if(d){e.preventDefault();mo[(n+d+mo.length)%mo.length].firstElementChild.focus();open((n+d+mo.length)%mo.length)}})});
 }
 
 /* thermal camera follows the pointer, drifts on its own otherwise */
@@ -631,6 +599,18 @@ const chips=$$('#chips button'),mst=$('#momStage'),mi=$$('img',mst);
 function mom(n,anim){momN=n;const m=MOMS[n];press(chips,n);mst.style.setProperty('--ar',m.ar);mi[0].src=`img/${m.k}-real.webp`;mi[0].alt=m.alt;mi[1].src=mi[2].src=`img/${m.k}-heat.webp`;$('#gift').textContent=m.gift;
  if(anim&&!calm){mst.classList.remove('scan');void mst.offsetWidth;mst.classList.add('scan')}}
 chips.forEach((c,n)=>c.addEventListener('click',()=>mom(n,true)));mom(0);
+
+/* calendar; Thermos campaigns from thermos.com.co/pages/promociones (Xmas Hot: december 2025) */
+$('#cal').innerHTML=[
+ ['Nuquí','Diciembre de 2026','Rompevientos y prendas ligeras para lluvia, mar y aventura','Clementine',''],
+ ['Viaje a Europa','Por confirmar','Gabanes, chaquetas y capas térmicas en invierno real','Clementine',''],
+ ['Día de la Madre','9 de mayo','Guía de regalos de la colección mujer','Clementine',''],
+ ['Día del Padre','20 de junio','Regalos de la línea hombre','Don Rob y su hermano','Dad Is On'],
+ ['Vacaciones y Uruguay','Junio y julio','Invierno del sur: outfits de viaje y abrigo','Clementine','Jacket Fest'],
+ ['Amor y Amistad','18 de septiembre','Regalos y looks en pareja o con amigas','Clementine','Thermos Days'],
+ ['Black Friday','26 de noviembre','Favoritos de Clementine y código exclusivo','Clementine y su hermano','Black Days'],
+ ['Navidad y fin de año','Diciembre','Regalos y viajes de temporada','Los Davies','Xmas Hot (2025)']
+].map(c=>`<tr><th scope="row" class="d">${c[0]}</th><td class="when">${c[1]}</td><td class="what">${c[2]}</td><td class="${c[3]==='Clementine'?'solo':'kin-tag'}">${c[3]}</td><td class="camp">${c[4]}</td></tr>`).join('');
 
 /* plan */
 const BASE={1:4500000,6:3900000,12:3600000},NAME={1:'Mes individual',6:'Plan 6 meses, 13 % de ahorro',12:'Plan 12 meses, 20 % de ahorro'};
